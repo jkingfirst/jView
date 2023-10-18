@@ -1,0 +1,78 @@
+@use "sass:map";
+@use "sass:math";
+@use "sass:color" as *;
+@use "config";
+$types: primary,success,warning,danger,info;
+$colors:("primary": #409eff,
+        "success": #67c23a,
+        "warning": #e6a23c,
+        "danger": #f56c6c,
+        "info": #909399);
+:root {
+   /* colors */
+   --j-color-white: #ffffff;
+   --j-color-black: #000000;
+   @each $type,$color in $colors{
+      --j-color-#{$type}: #{$color};
+      @each $i in (3,5,7,8,9){
+         --j-color-#{$type}-light-#{$i}: #{mix(
+                         #fff,
+                         $color,
+                         math.percentage(math.div($i, 10))
+         )}
+      }
+      @each $j in (2){
+         --j-color-#{$type}-dark#{$j}: #{mix(
+                         #000,
+                         $color,
+                         math.percentage(math.div($j, 10))
+         )}
+      }
+   }
+   --j-bg-color: #ffffff;
+   --j-bg-color-page: #f2f3f5;
+   --j-bg-color-overlay: #ffffff;
+   --j-text-color-primary: #303133;
+   --j-text-color-regular: #606266;
+   --j-text-color-secondary: #909399;
+   --j-text-color-placeholder: #a8abb2;
+   --j-text-color-disabled: #c0c4cc;
+   --j-border-color: #dcdfe6;
+   --j-border-color-light: #e4e7ed;
+   --j-border-color-lighter: #ebeef5;
+   --j-border-color-extra-light: #f2f6fc;
+   --j-border-color-dark: #d4d7de;
+   --j-border-color-darker: #cdd0d6;
+   --j-fill-color: #f0f2f5;
+   --j-fill-color-light: #f5f7fa;
+   --j-fill-color-lighter: #fafafa;
+   --j-fill-color-extra-light: #fafcff;
+   --j-fill-color-dark: #ebedf0;
+   --j-fill-color-darker: #e6e8eb;
+   --j-fill-color-blank: #ffffff;
+
+   /* border */
+   --j-border-width: 1px;
+   --j-border-style: solid;
+   --j-border-color-hover: var(--j-text-color-disabled);
+   --j-border: var(--j-border-width) var(--j-border-style) var(--j-border-color);
+   --j-border-radius-base: 4px;
+   --j-border-radius-small: 2px;
+   --j-border-radius-round: 20px;
+   --j-border-radius-circle: 100%;
+
+   /*font*/
+   --j-font-size-extra-large: 20px;
+   --j-font-size-large: 18px;
+   --j-font-size-medium: 16px;
+   --j-font-size-base: 14px;
+   --j-font-size-small: 13px;
+   --j-font-size-extra-small: 12px;
+   --j-font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "\5fae\8f6f\96c5\9ed1", Arial, sans-serif;
+   --j-font-weight-primary: 500;
+
+   /*disabled*/
+   --j-disabled-bg-color: var(--j-fill-color-light);
+   --j-disabled-text-color: var(--j-text-color-placeholder);
+   --j-disabled-border-color: var(--j-border-color-light);
+ }

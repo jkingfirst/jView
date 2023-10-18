@@ -1,0 +1,122 @@
+@use "/src/styles/var" as *;
+.j-button{
+   --j-button-font-weight: var(--j-font-weight-primary);
+   --j-button-border-color: var(--j-border-color);
+   --j-button-bg-color: var(--j-fill-color-blank);
+   --j-button-text-color: var(--j-text-color-regular);
+   --j-button-disabled-text-color: var(--j-disabled-text-color);
+   --j-button-disabled-bg-color: var(--j-fill-color-blank);
+   --j-button-disabled-border-color: var(--j-border-color-light);
+   --j-button-hover-text-color: var(--j-color-primary);
+   --j-button-hover-bg-color: var(--j-color-primary-light-9);
+   --j-button-hover-border-color: var(--j-color-primary-light-7);
+   --j-button-active-text-color: var(--j-button-hover-text-color);
+   --j-button-active-border-color: var(--j-color-primary);
+   --j-button-active-bg-color: var(--j-button-hover-bg-color);
+   --j-button-outline-color: var(--j-color-primary-light-5);
+   --j-button-active-color: var(--j-text-color-primary);
+}
+.j-button{
+display: inline-flex;
+   justify-content: center;
+   align-items: center;
+   line-height: 1;
+   height: 32px;
+   white-space: nowrap;
+   cursor: pointer;
+   color: var(--j-button-text-color);
+   text-align: center;
+   box-sizing: border-box;
+   outline: none;
+   transition: .1s;
+   font-weight: var(--j-button-font-weight);
+   user-select: none;
+   vertical-align: middle;
+   -webkit-appearance: none;
+   background-color: var(--j-button-bg-color);
+   border: var(--j-border);
+   border-color: var(--j-button-border-color);
+   padding: 8px 15px;
+   font-size: var(--j-font-size-base);
+   border-radius: var(--j-border-radius-base);
+   & + & {
+     margin-left: 12px;
+   }
+   &:hover,
+   &:focus {
+     color: var(--j-button-hover-text-color);
+     border-color: var(--j-button-hover-border-color);
+     background-color: var(--j-button-hover-bg-color);
+     outline: none;
+   }
+   &:active {
+     color: var(--j-button-active-text-color);
+     border-color: var(--j-button-active-border-color);
+     background-color: var(--j-button-active-bg-color);
+     outline: none;
+   }
+   &.is-plain {
+     --j-button-hover-text-color: var(--j-color-primary);
+     --j-button-hover-bg-color: var(--j-fill-color-blank);
+     --j-button-hover-border-color: var(--j-color-primary);
+   }
+   /*round*/
+   &.is-round {
+     border-radius: var(--j-border-radius-round);
+   }
+   /*circle*/
+   &.is-circle {
+     border-radius: 50%;
+     padding: 8px;
+   }
+   /*disabled*/
+   &.is-disabled, &.is-disabled:hover, &.is-disabled:focus,
+   &[disabled], &[disabled]:hover, &[disabled]:focus
+   {
+     color: var(--j-button-disabled-text-color);
+     cursor: not-allowed;
+     background-image: none;
+     background-color: var(--j-button-disabled-bg-color);
+     border-color: var(--j-button-disabled-border-color);
+   }
+ }
+  @each $type in $types {
+    .j-button--#{$type} {
+     --j-button-text-color: var(--j-color-white);
+     --j-button-bg-color: var(--j-color-#{$type});
+     --j-button-border-color: var(--j-color-#{$type});
+     --j-button-outline-color: var(--j-color-#{$type}-light-5);
+     --j-button-active-color: var(--j-color-#{$type}-dark-2);
+     --j-button-hover-text-color: var(--j-color-white);
+     --j-button-hover-bg-color: var(--j-color-#{$type}-light-3);
+     --j-button-hover-border-color: var(--j-color-#{$type}-light-3);
+     --j-button-active-bg-color: var(--j-color-#{$type}-dark-2);
+     --j-button-active-border-color: var(--j-color-#{$type}-dark-2);
+     --j-button-disabled-text-color: var(--j-color-white);
+     --j-button-disabled-bg-color: var(--j-color-#{$type}-light-5);
+     --j-button-disabled-border-color: var(--j-color-#{$type}-light-5);
+   }
+    .j-button--#{$type}.is-plain {
+     --j-button-text-color: var(--j-color-#{$type});
+     --j-button-bg-color: var(--j-color-#{$type}-light-9);
+     --j-button-border-color: var(--j-color-#{$type}-light-5);
+     --j-button-hover-text-color: var(--j-color-white);
+     --j-button-hover-bg-color: var(--j-color-#{$type});
+     --j-button-hover-border-color: var(--j-color-#{$type});
+     --j-button-active-text-color: var(--j-color-white);
+   }
+ }
+ .j-button--large {
+   --j-button-size: 40px;
+   height: var(--j-button-size);
+   padding: 12px 19px;
+   font-size: var(--j-font-size-base);
+   border-radius: var(--j-border-radius-base);
+ }
+ .j-button--small {
+   --j-button-size: 24px;
+   height: var(--j-button-size);
+   padding: 5px 11px;
+   font-size: 12px;
+   border-radius: calc(var(--j-border-radius-base) - 1px);
+ }
