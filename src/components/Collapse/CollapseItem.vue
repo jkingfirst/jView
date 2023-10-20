@@ -11,8 +11,10 @@
       <slot name="title">{{ title }}</slot>
     </div>
     <transition name="slide" v-on="on">
-      <div v-show="isShow" :id="`collapse-item-content-${name}`" class="j-collapse-item__content">
-        <slot></slot>
+      <div v-show="isActive" :id="`collapse-item-content-${name}`">
+        <div class="j-collapse-item__content">
+          <slot></slot>
+        </div>
       </div>
     </transition>
   </div>
@@ -28,7 +30,7 @@ defineOptions({
 })
 const props = defineProps<CollapseItemProps>()
 const collapseContext = inject(CollapseContextKey)
-const isShow = computed<boolean | undefined>(() => {
+const isActive = computed<boolean | undefined>(() => {
   return collapseContext?.activeNames.value.includes(props.name)
 })
 const handleClickItem = (name: NameTypes) => {
@@ -36,24 +38,48 @@ const handleClickItem = (name: NameTypes) => {
 }
 const on: Record<string, (el: HTMLElement) => void> = {
   beforeEnter(el) {
-    el.style.height = '0px'
+    el.dataset.oldPaddingTop = el.style.paddingTop
+    el.dataset.oldPaddingBottom = el.style.paddingBottom
+
+    el.style.maxHeight = 0
+    el.style.paddingTop = 0
+    el.style.paddingBottom = 0
   },
   enter(el) {
+    el.dataset.oldOverflow = el.style.overflow
+    if (el.scrollHeight !== 0) {
+      el.style.maxHeight = `${el.scrollHeight}px`
+    } else {
+      el.style.maxHeight = 0
+    }
+    el.style.paddingTop = el.dataset.oldPaddingTop
+    el.style.paddingBottom = el.dataset.oldPaddingBottom
     el.style.overflow = 'hidden'
-    el.style.height = `${el.scrollHeight}px`
   },
   afterEnter(el) {
-    el.style.height = ''
+    el.style.maxHeight = ''
+    el.style.overflow = el.dataset.oldOverflow || ''
   },
   beforeLeave(el) {
+    el.dataset.oldPaddingTop = el.style.paddingTop
+    el.dataset.oldPaddingBottom = el.style.paddingBottom
+    el.dataset.oldOverflow = el.style.overflow
+
+    el.style.maxHeight = `${el.scrollHeight}px`
     el.style.overflow = 'hidden'
-    el.style.height = `${el.scrollHeight}px`
   },
   leave(el) {
-    el.style.height = '0px'
+    if (el.scrollHeight !== 0) {
+      el.style.maxHeight = 0
+      el.style.paddingTop = 0
+      el.style.paddingBottom = 0
+    }
   },
   afterLeave(el) {
-    el.style.height = ''
+    el.style.maxHeight = ''
+    el.style.overflow = el.dataset.oldOverflow
+    el.style.paddingTop = el.dataset.oldPaddingTop
+    el.style.paddingBottom = el.dataset.oldPaddingBottom
   }
 }
 </script>
