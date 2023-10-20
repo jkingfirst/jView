@@ -1,0 +1,51 @@
+.j-collapse {
+    --j-collapse-border-color: var(--j-border-color-light);
+    --j-collapse-header-height: 48px;
+    --j-collapse-header-bg-color: var(--j-fill-color-blank);
+    --j-collapse-header-text-color: var(--j-text-color-primary);
+    --j-collapse-header-font-size: 13px;
+    --j-collapse-content-bg-color: var(--j-fill-color-blank);
+    --j-collapse-content-font-size: 13px;
+    --j-collapse-content-text-color: var(--j-text-color-primary);
+    --j-collapse-disabled-text-color: var(--j-disabled-text-color);
+    --j-collapse-disabled-border-color: var(--j-border-color-lighter);
+    border-top: 1px solid var(--j-collapse-border-color);
+    border-bottom: 1px solid var(--j-collapse-border-color);
+}
+.j-collapse-item__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--j-collapse-header-height);
+    line-height: var(--j-collapse-header-height);
+    background-color: var(--j-collapse-header-bg-color);
+    color: var(--j-collapse-header-text-color);
+    cursor: pointer;
+    font-size: var(--j-collapse-header-font-size);
+    font-weight: 500;
+    transition: border-bottom-color var(--j-transition-duration);
+    outline: none;
+    border-bottom: 1px solid var(--j-collapse-border-color);
+    &.is-disabled {
+        color: var(--j-collapse-disabled-text-color);
+        cursor: not-allowed;
+        background-image: none;
+    }
+    &.is-active {
+        border-bottom-color: transparent;
+    }
+}
+.j-collapse-item__content {
+    will-change: height;
+    background-color: var(--j-collapse-content-bg-color);
+    overflow: hidden;
+    box-sizing: border-box;
+    font-size: var(--j-collapse-content-font-size);
+    color: var(--j-collapse-content-text-color);
+    border-bottom: 1px solid var(--j-collapse-border-color);
+    padding-bottom: 25px;
+}
+
+.slide-enter-active, .slide-leave-active {
+    transition: height 1s ease-in-out;
+}
