@@ -1,6 +1,7 @@
-
-$namespace: 'j' !default;
+// https://css-tricks.com/bem-101/ 样式类命名编写规则
+$namespace: 'el' !default;
 $common-separator: '-' !default;
+$element-separator: '__' !default;
 $modifier-separator: '--' !default;
 $state-prefix: 'is-' !default;
 

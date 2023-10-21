@@ -35,14 +35,30 @@
     <j-button type="primary">default</j-button>
     <j-button type="primary" size="small">small</j-button>
   </div>
+  <div>
+    <j-collapse v-model="a">
+      <j-collapse-item title="hello word" name="hello word">
+        <div>23424234</div>
+      </j-collapse-item>
+      <j-collapse-item title="hello jking" name="hello jking">
+        <div>
+          <h1>111</h1>
+          <div><a>hello word</a></div>
+        </div>
+      </j-collapse-item>
+    </j-collapse>
+  </div>
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import JButton from '@/components/Button/Button.vue'
+import JCollapse from '@/components/Collapse/Collapse.vue'
+import JCollapseItem from '@/components/Collapse/CollapseItem.vue'
 const buttonRef = ref(null)
 onMounted(() => {
   console.log(buttonRef.value?.ref)
 })
+const a = ref(['hello word'])
 </script>
 
 <style scoped></style>

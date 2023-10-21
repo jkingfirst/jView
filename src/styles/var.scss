@@ -75,4 +75,7 @@ $colors:("primary": #409eff,
    --j-disabled-bg-color: var(--j-fill-color-light);
    --j-disabled-text-color: var(--j-text-color-placeholder);
    --j-disabled-border-color: var(--j-border-color-light);
+   /*animation*/
+   --j-transition-duration: .3s;
+   --j-transition-duration-fast: .2s;
  }
