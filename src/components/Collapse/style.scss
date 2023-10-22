@@ -33,6 +33,12 @@
     }
     &.is-active {
         border-bottom-color: transparent;
+        .j-icon-angle{
+            transform: rotate(90deg);
+        }
+    }
+    .j-icon-angle{
+        transition: transform var(--j-transition-duration) linear;
     }
 }
 .j-collapse-item__content {

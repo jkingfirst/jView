@@ -17,7 +17,7 @@
    --j-button-active-color: var(--j-text-color-primary);
 }
 .j-button{
-display: inline-flex;
+   display: inline-flex;
    justify-content: center;
    align-items: center;
    line-height: 1;
@@ -79,6 +79,9 @@ display: inline-flex;
      background-color: var(--j-button-disabled-bg-color);
      border-color: var(--j-button-disabled-border-color);
    }
+  [class*=j-icon] + span{
+    margin-left:6px;
+  }
  }
   @each $type in $types {
     .j-button--#{$type} {

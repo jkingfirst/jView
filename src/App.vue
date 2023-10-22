@@ -10,6 +10,8 @@
     <j-button type="info">Info</j-button>
     <j-button type="warning">Warning</j-button>
     <j-button type="danger">Danger</j-button>
+    <j-button type="info" loading>loading</j-button>
+    <j-button type="info" icon="user-secret">icon</j-button>
   </div>
 
   <div class="mb-4">
@@ -35,6 +37,7 @@
     <j-button type="primary">default</j-button>
     <j-button type="primary" size="small">small</j-button>
   </div>
+  <j-icon icon="fa-user-secret" type="danger" color="red" style="font-size: 100px"></j-icon>
   <div>
     <j-collapse v-model="a">
       <j-collapse-item title="hello word" name="hello word">
@@ -54,6 +57,7 @@ import { onMounted, ref } from 'vue'
 import JButton from '@/components/Button/Button.vue'
 import JCollapse from '@/components/Collapse/Collapse.vue'
 import JCollapseItem from '@/components/Collapse/CollapseItem.vue'
+import JIcon from '@/components/Icon/Icon.vue'
 const buttonRef = ref(null)
 onMounted(() => {
   console.log(buttonRef.value?.ref)
