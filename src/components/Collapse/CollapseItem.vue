@@ -4,11 +4,13 @@
       :id="`collapse-item-header-${name}`"
       class="j-collapse-item__header"
       :class="{
-        'is-disable': disabled
+        'is-disable': disabled,
+        'is-active': isActive
       }"
       @click="handleClickItem(name)"
     >
       <slot name="title">{{ title }}</slot>
+      <j-icon icon="angle-right" class="j-icon-angle"></j-icon>
     </div>
     <transition name="slide" v-on="on">
       <div v-show="isActive" :id="`collapse-item-content-${name}`">
@@ -23,6 +25,7 @@
 import { computed, inject } from 'vue'
 import type { CollapseItemProps, NameTypes } from '@/components/Collapse/type'
 import { CollapseContextKey } from '@/components/Collapse/type'
+import JIcon from '@/components/Icon/Icon.vue'
 
 defineOptions({
   name: 'JCollapse',

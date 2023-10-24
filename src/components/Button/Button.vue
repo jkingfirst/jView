@@ -8,12 +8,15 @@
       'is-plain': plain,
       'is-round': round,
       'is-circle': circle,
-      'is-disabled': disabled
+      'is-disabled': disabled,
+      'is-loading': loading
     }"
-    :disabled="disabled"
+    :disabled="disabled || loading"
     :type="nativeType"
     :auto-focus="autoFocus"
   >
+    <j-icon v-if="icon" :icon="icon"></j-icon>
+    <j-icon v-if="loading" icon="spinner" spin></j-icon>
     <span><slot /></span>
   </button>
 </template>
@@ -21,6 +24,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import type { ButtonProps } from '@/components/Button/type'
+import JIcon from '@/components/Icon/Icon.vue'
 const _ref = ref<HTMLButtonElement>()
 defineOptions({
   name: 'JButton',
