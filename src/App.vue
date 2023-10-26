@@ -1,12 +1,12 @@
 <template>
-  <div style="width: 200px">
-    <j-tooltip ref="tooltipRef" content="jking---" manual>
+  <div style="display: flex">
+    <j-tooltip ref="tooltipRef" content="jking---" delay="1000">
       <span>hello</span>
     </j-tooltip>
   </div>
   <div class="mb-4">
-    <j-button>Default</j-button>
-    <j-button type="primary">Primary</j-button>
+    <j-button @click="open">Default1</j-button>
+    <j-button type="primary" @click="close">Primary2</j-button>
     <j-button type="success">Success</j-button>
     <j-button type="info">Info</j-button>
     <j-button type="warning">Warning</j-button>
@@ -63,12 +63,15 @@ import JTooltip from '@/components/Tooltip/Tooltip.vue'
 const buttonRef = ref(null)
 const tooltipRef = ref<HTMLElement | undefined>()
 onMounted(() => {
-  console.log(buttonRef.value?.ref)
-  tooltipRef.value?.show()
-  setTimeout(() => {
-    tooltipRef.value?.hide()
-  }, 1000)
+  // console.log(buttonRef.value?.ref)
 })
+const open = () => {
+  tooltipRef.value?.show()
+}
+const close = () => {
+  console.log(tooltipRef.value)
+  tooltipRef.value?.hide()
+}
 const a = ref(['hello word'])
 </script>
 
