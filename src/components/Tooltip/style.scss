@@ -1,4 +1,73 @@
+.j-tooltip {
+  --j-popover-bg-color: var(--j-bg-color-overlay);
+  --j-popover-font-size: var(--j-font-size-base);
+  --j-popover-border-color: var(--j-border-color);
+  --j-popover-padding: 12px;
+  --j-popover-border-radius: 4px;
+  display: inline-block;
+}
 .j-tooltip{
+  .j-tooltip__popper {
+    background: var(--j-popover-bg-color);
+    border-radius: var(--j-popover-border-radius);
+    border: 1px solid var(--j-popover-border-color);
+    padding: var(--j-popover-padding);
+    color: var(--j-text-color-regular);
+    line-height: 1.4;
+    text-align: justify;
+    font-size: var(--j-popover-font-size);
+    box-shadow: var(--j-box-shadow-light);
+    word-break: break-all;
+    box-sizing: border-box;
+    z-index: 1000;
+    #arrow,
+    #arrow::before {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      box-sizing: border-box;
+      background: var(--j-popover-bg-color);
+    }
+    #arrow {
+      visibility: hidden;
+    }
+    #arrow::before {
+      visibility: visible;
+      content: "";
+      transform: rotate(45deg);
+    }
+    &[data-popper-placement^='top'] > #arrow {
+      bottom: -4px;
+    }
+
+    &[data-popper-placement^='bottom'] > #arrow {
+      top: -4px;
+    }
+
+    &[data-popper-placement^='left'] > #arrow {
+      right: -4px;
+    }
+
+    &[data-popper-placement^='right'] > #arrow {
+      left: -4px;
+    }
+    &[data-popper-placement^="top"] > #arrow::before {
+      border-right: 1px solid var(--j-popover-border-color);
+      border-bottom: 1px solid var(--j-popover-border-color);
+    }
+    &[data-popper-placement^="bottom"] > #arrow::before {
+      border-left: 1px solid var(--j-popover-border-color);
+      border-top: 1px solid var(--j-popover-border-color);
+    }
+    &[data-popper-placement^="left"] > #arrow::before {
+      border-right: 1px solid var(--j-popover-border-color);
+      border-top: 1px solid var(--j-popover-border-color);
+    }
+    &[data-popper-placement^="right"] > #arrow::before {
+      border-left: 1px solid var(--j-popover-border-color);
+      border-bottom: 1px solid var(--j-popover-border-color);
+    }
+  }
   .fade-enter-active, .fade-leave-active{
     transition: opacity var(--j-transition-duration);
   }

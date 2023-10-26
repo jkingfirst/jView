@@ -6,6 +6,7 @@
     <transition :name="transition">
       <div v-if="isOpen" ref="popperNode" class="j-tooltip__popper">
         <slot name="content">{{ content }}</slot>
+        <div id="arrow" data-popper-arrow></div>
       </div>
     </transition>
   </div>
@@ -22,7 +23,7 @@ defineOptions({
 })
 const props = withDefaults(defineProps<TooltipProps>(), {
   placement: 'bottom',
-  trigger: 'hover',
+  trigger: 'click',
   transition: 'fade',
   delay: 0
 })
@@ -70,6 +71,14 @@ let events: Record<string, any> = reactive({})
 let outerEvents: Record<string, any> = reactive({})
 const popperOptions = computed(() => ({
   placement: props.placement,
+  modifiers: [
+    {
+      name: 'offset',
+      options: {
+        offset: [0, 8]
+      }
+    }
+  ],
   ...props.popperOptions
 }))
 const attachmentEvents = () => {

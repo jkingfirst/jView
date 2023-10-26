@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex">
-    <j-tooltip ref="tooltipRef" content="jking---" delay="1000">
-      <span>hello</span>
+    <j-tooltip ref="tooltipRef" content="jking---" :delay="0">
+      <span style="border: 1px solid red">hello</span>
     </j-tooltip>
   </div>
   <div class="mb-4">
