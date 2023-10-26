@@ -1,8 +1,9 @@
 <template>
-  <h1>hjlo word</h1>
-  <h2>hjlo word</h2>
-  <h3>hjlo word</h3>
-  <a>hjlo word</a>
+  <div style="width: 200px">
+    <j-tooltip ref="tooltipRef" content="jking---" manual>
+      <span>hello</span>
+    </j-tooltip>
+  </div>
   <div class="mb-4">
     <j-button>Default</j-button>
     <j-button type="primary">Primary</j-button>
@@ -58,11 +59,21 @@ import JButton from '@/components/Button/Button.vue'
 import JCollapse from '@/components/Collapse/Collapse.vue'
 import JCollapseItem from '@/components/Collapse/CollapseItem.vue'
 import JIcon from '@/components/Icon/Icon.vue'
+import JTooltip from '@/components/Tooltip/Tooltip.vue'
 const buttonRef = ref(null)
+const tooltipRef = ref<HTMLElement | undefined>()
 onMounted(() => {
   console.log(buttonRef.value?.ref)
+  tooltipRef.value?.show()
+  setTimeout(() => {
+    tooltipRef.value?.hide()
+  }, 1000)
 })
 const a = ref(['hello word'])
 </script>
 
-<style scoped></style>
+<style scoped>
+header {
+  display: flex;
+}
+</style>

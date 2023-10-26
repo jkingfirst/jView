@@ -2,7 +2,6 @@
 module.exports = {
   root: true,
   'extends': [
-    'eslint:recommended',
     "eslint:recommended",
     'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
@@ -19,5 +18,8 @@ module.exports = {
     ecmaVersion: 'latest',
     "parser": "@typescript-eslint/parser",
     "sourceType": "module"
+  },
+  rules: {
+    "@typescript-eslint/no-explicit-any": 0
   }
 }
