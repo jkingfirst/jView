@@ -1,11 +1,12 @@
 <template>
-  <h1>hjlo word</h1>
-  <h2>hjlo word</h2>
-  <h3>hjlo word</h3>
-  <a>hjlo word</a>
+  <div style="display: flex">
+    <j-tooltip ref="tooltipRef" content="jking---" :delay="0">
+      <span style="border: 1px solid red">hello</span>
+    </j-tooltip>
+  </div>
   <div class="mb-4">
-    <j-button>Default</j-button>
-    <j-button type="primary">Primary</j-button>
+    <j-button @click="open">Default1</j-button>
+    <j-button type="primary" @click="close">Primary2</j-button>
     <j-button type="success">Success</j-button>
     <j-button type="info">Info</j-button>
     <j-button type="warning">Warning</j-button>
@@ -58,11 +59,24 @@ import JButton from '@/components/Button/Button.vue'
 import JCollapse from '@/components/Collapse/Collapse.vue'
 import JCollapseItem from '@/components/Collapse/CollapseItem.vue'
 import JIcon from '@/components/Icon/Icon.vue'
+import JTooltip from '@/components/Tooltip/Tooltip.vue'
 const buttonRef = ref(null)
+const tooltipRef = ref<HTMLElement | undefined>()
 onMounted(() => {
-  console.log(buttonRef.value?.ref)
+  // console.log(buttonRef.value?.ref)
 })
+const open = () => {
+  tooltipRef.value?.show()
+}
+const close = () => {
+  console.log(tooltipRef.value)
+  tooltipRef.value?.hide()
+}
 const a = ref(['hello word'])
 </script>
 
-<style scoped></style>
+<style scoped>
+header {
+  display: flex;
+}
+</style>

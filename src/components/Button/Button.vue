@@ -27,8 +27,7 @@ import type { ButtonProps } from '@/components/Button/type'
 import JIcon from '@/components/Icon/Icon.vue'
 const _ref = ref<HTMLButtonElement>()
 defineOptions({
-  name: 'JButton',
-  inheritAttrs: false
+  name: 'JButton'
 })
 withDefaults(defineProps<ButtonProps>(), {
   nativeType: 'button'
