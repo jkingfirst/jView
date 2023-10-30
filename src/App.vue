@@ -53,7 +53,11 @@
     </j-collapse>
   </div>
   <div>
-    <j-downdown :menu-options="options" placement="right">
+    <j-downdown
+      :menu-options="options"
+      placement="right"
+      @select-change="(item) => console.log(item)"
+    >
       <j-button>下拉菜单</j-button>
     </j-downdown>
   </div>
@@ -65,7 +69,7 @@ import JCollapse from '@/components/Collapse/Collapse.vue'
 import JCollapseItem from '@/components/Collapse/CollapseItem.vue'
 import JIcon from '@/components/Icon/Icon.vue'
 import JTooltip from '@/components/Tooltip/Tooltip.vue'
-import JDowndown from '@/components/Dropdown/Dropdown.vue'
+import JDowndown from '@/components/Dropdown/Dropdown.tsx'
 import type { MenuOption } from '@/components/Dropdown/type'
 const buttonRef = ref(null)
 const tooltipRef = ref<HTMLElement | undefined>()

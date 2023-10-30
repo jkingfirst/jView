@@ -9,7 +9,9 @@ export interface MenuOption {
 }
 export interface DropdownProps extends TooltipProps {
   menuOptions: MenuOption[]
+  hideOnClick?: boolean
 }
 export interface DropdownEmit {
   (e: 'visible-change', value: boolean): boolean
+  (e: 'select-change', value: MenuOption): void
 }
