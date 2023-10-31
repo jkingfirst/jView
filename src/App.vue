@@ -52,16 +52,47 @@
       </j-collapse-item>
     </j-collapse>
   </div>
+  <div>
+    <j-downdown
+      :menu-options="options"
+      placement="right"
+      @select-change="(item) => console.log(item)"
+    >
+      <j-button>下拉菜单</j-button>
+    </j-downdown>
+  </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, h } from 'vue'
 import JButton from '@/components/Button/Button.vue'
 import JCollapse from '@/components/Collapse/Collapse.vue'
 import JCollapseItem from '@/components/Collapse/CollapseItem.vue'
 import JIcon from '@/components/Icon/Icon.vue'
 import JTooltip from '@/components/Tooltip/Tooltip.vue'
+import JDowndown from '@/components/Dropdown/Dropdown.tsx'
+import type { MenuOption } from '@/components/Dropdown/type'
 const buttonRef = ref(null)
 const tooltipRef = ref<HTMLElement | undefined>()
+const options = ref<MenuOption[]>([
+  {
+    label: h('b', 'hello word'),
+    key: 'item1'
+  },
+  {
+    label: 'item2',
+    key: 'item2',
+    disabled: true
+  },
+  {
+    label: 'item3',
+    key: 'item3',
+    divided: true
+  },
+  {
+    label: 'item4',
+    key: 'item4'
+  }
+])
 onMounted(() => {
   // console.log(buttonRef.value?.ref)
 })
