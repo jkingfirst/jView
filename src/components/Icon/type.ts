@@ -4,7 +4,7 @@
 //     If this previously worked in 3.2, you can instruct the compiler to ignore this extend by adding /* @vue-ignore */ before it, for example:
 //
 // interface Props extends /* @vue-ignore */ Base {}
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
 interface FontAwesomeIconProps {
   border?: boolean

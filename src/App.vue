@@ -61,6 +61,10 @@
       <j-button>下拉菜单</j-button>
     </j-downdown>
   </div>
+  <div>
+    <!--    <j-message message="HELLO-word" type="primary"></j-message>-->
+    <!--    <j-message message="HELLO-word" type="primary" :duration="0"></j-message>-->
+  </div>
 </template>
 <script setup lang="ts">
 import { onMounted, ref, h } from 'vue'
@@ -70,6 +74,8 @@ import JCollapseItem from '@/components/Collapse/CollapseItem.vue'
 import JIcon from '@/components/Icon/Icon.vue'
 import JTooltip from '@/components/Tooltip/Tooltip.vue'
 import JDowndown from '@/components/Dropdown/Dropdown.tsx'
+// import JMessage from '@/components/Message/Message.vue'
+import { createMessage } from '@/components/Message/method'
 import type { MenuOption } from '@/components/Dropdown/type'
 const buttonRef = ref(null)
 const tooltipRef = ref<HTMLElement | undefined>()
@@ -95,6 +101,8 @@ const options = ref<MenuOption[]>([
 ])
 onMounted(() => {
   // console.log(buttonRef.value?.ref)
+  createMessage({ message: 'hello', duration: 0 })
+  createMessage({ message: 'hello', duration: 3000 })
 })
 const open = () => {
   tooltipRef.value?.show()
