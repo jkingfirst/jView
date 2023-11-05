@@ -7,7 +7,7 @@
   <div class="mb-4">
     <j-button @click="open">Default1</j-button>
     <j-button type="primary" @click="close">Primary2</j-button>
-    <j-button type="success">Success</j-button>
+    <j-button type="success" @click="handleCreateMessage">Success</j-button>
     <j-button type="info">Info</j-button>
     <j-button type="warning">Warning</j-button>
     <j-button type="danger">Danger</j-button>
@@ -101,9 +101,21 @@ const options = ref<MenuOption[]>([
 ])
 onMounted(() => {
   // console.log(buttonRef.value?.ref)
-  createMessage({ message: 'hello', duration: 0 })
-  createMessage({ message: 'hello', duration: 3000 })
+  createMessage({ message: 'hello 111', duration: 0, type: 'success' })
+  createMessage({ message: 'hello 2222', duration: 0, type: 'danger' })
+  const instance = createMessage({
+    message: 'hello 33333',
+    duration: 0,
+    showClose: true,
+    type: 'warning'
+  })
+  setTimeout(() => {
+    // instance.destroy()
+  }, 5000)
 })
+const handleCreateMessage = () => {
+  createMessage({ message: 'hello 2222', duration: 0, type: 'primary' })
+}
 const open = () => {
   tooltipRef.value?.show()
 }
