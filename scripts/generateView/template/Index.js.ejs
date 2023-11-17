@@ -1,0 +1,14 @@
+<template>
+  <div class="<%=`j-${className}`%>>"></div>
+</template>
+
+<script lang="ts" setup>
+  <%- `import type { ${componentName}Props } from '@/components/${componentName}/type'`%>
+  defineOptions({
+    name: '<%= componentName %>'
+  })
+</script>
+
+<style scoped lang="scss">
+
+</style>
