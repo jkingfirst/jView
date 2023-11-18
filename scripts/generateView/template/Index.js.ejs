@@ -1,0 +1,15 @@
+<template>
+  <div class="<%=`j-${className}`%>>"></div>
+</template>
+
+<script lang="ts" setup>
+<%- `import type { ${componentName}Props } from '@/components/${componentName}/type'`%>
+defineOptions({
+  name: '<%= `J${componentName}` %>'
+})
+<%- `defineProps<${componentName}Props>()` %>
+</script>
+
+<style scoped lang="scss">
+
+</style>

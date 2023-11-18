@@ -16,7 +16,6 @@ import { defineComponent, h } from 'vue'
 // })
 const RenderVnode = defineComponent(
   (props) => {
-    console.log(props.vnode, '######')
     return () => h('div', props.vnode)
   },
   {

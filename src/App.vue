@@ -7,7 +7,7 @@
   <div class="mb-4">
     <j-button @click="open">Default1</j-button>
     <j-button type="primary" @click="close">Primary2</j-button>
-    <j-button type="success">Success</j-button>
+    <j-button type="success" @click="handleCreateMessage">Success</j-button>
     <j-button type="info">Info</j-button>
     <j-button type="warning">Warning</j-button>
     <j-button type="danger">Danger</j-button>
@@ -61,6 +61,10 @@
       <j-button>下拉菜单</j-button>
     </j-downdown>
   </div>
+  <div>
+    <!--    <j-message message="HELLO-word" type="primary"></j-message>-->
+    <!--    <j-message message="HELLO-word" type="primary" :duration="0"></j-message>-->
+  </div>
 </template>
 <script setup lang="ts">
 import { onMounted, ref, h } from 'vue'
@@ -70,6 +74,8 @@ import JCollapseItem from '@/components/Collapse/CollapseItem.vue'
 import JIcon from '@/components/Icon/Icon.vue'
 import JTooltip from '@/components/Tooltip/Tooltip.vue'
 import JDowndown from '@/components/Dropdown/Dropdown.tsx'
+// import JMessage from '@/components/Message/Message.vue'
+import { createMessage } from '@/components/Message/method'
 import type { MenuOption } from '@/components/Dropdown/type'
 const buttonRef = ref(null)
 const tooltipRef = ref<HTMLElement | undefined>()
@@ -95,7 +101,21 @@ const options = ref<MenuOption[]>([
 ])
 onMounted(() => {
   // console.log(buttonRef.value?.ref)
+  createMessage({ message: 'hello 111', duration: 0, type: 'success' })
+  createMessage({ message: 'hello 2222', duration: 0, type: 'danger' })
+  const instance = createMessage({
+    message: 'hello 33333',
+    duration: 0,
+    showClose: true,
+    type: 'warning'
+  })
+  setTimeout(() => {
+    // instance.destroy()
+  }, 5000)
 })
+const handleCreateMessage = () => {
+  createMessage({ message: 'hello 2222', duration: 0, type: 'primary' })
+}
 const open = () => {
   tooltipRef.value?.show()
 }

@@ -9,6 +9,7 @@
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,
+    "target": "ES6",
     "baseUrl": ".",
     "jsx": "preserve",
     "jsxImportSource": "vue",
