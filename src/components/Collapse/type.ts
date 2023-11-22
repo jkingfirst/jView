@@ -1,7 +1,7 @@
 import type { InjectionKey, Ref } from 'vue'
 export interface CollapseProps {
   modelValue: string[]
-  accordion?: boolean
+  accordion?: boolean // 手风琴模式
 }
 export type NameTypes = string | number
 export interface CollapseItemProps {
