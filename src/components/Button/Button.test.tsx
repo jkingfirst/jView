@@ -35,7 +35,7 @@ describe('Button.vue', () => {
     expect(el.get('button').element.disabled).toBeDefined()
     el.get('button').trigger('click')
     console.log(el.emitted())
-    !expect(el.emitted()).not.toHaveProperty('click')
+    expect(el.emitted()).not.toHaveProperty('click')
   })
   test('icon', () => {
     const el = mount(Button, {
@@ -49,7 +49,6 @@ describe('Button.vue', () => {
         stubs: ['FontAwesomeIcon']
       }
     })
-    console.log(el.html())
     const FontIcon = el.findComponent(FontAwesomeIcon)
     expect(FontIcon.exists()).toBeTruthy()
     expect(FontIcon.attributes('icon')).toBe('arrow-up')

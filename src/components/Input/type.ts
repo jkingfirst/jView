@@ -5,8 +5,15 @@ export interface InputProps {
   disabled?: boolean
   clearable?: boolean
   showPassword?: boolean
-  modelValue: string | number
+  modelValue: string
 }
 export interface InputEmits {
-  (e: 'update:modelValue', value: string | number): void
+  (e: 'update:modelValue', value: string): void
+  (e: 'input', value: string): void
+  (e: 'change', value: string): void
+  (e: 'focus', value: FocusEvent): void
+  (e: 'blur', value: FocusEvent): void
+  (e: 'blur', value: FocusEvent): void
+  (e: 'blur', value: FocusEvent): void
+  (e: 'clear'): void
 }
