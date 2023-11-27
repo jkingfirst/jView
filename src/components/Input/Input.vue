@@ -1,6 +1,6 @@
 <template>
   <div
-    class="j-input>"
+    class="j-input"
     :class="{
       [`j-input-${type}`]: type,
       [`j-input-${size}`]: size,
@@ -17,7 +17,7 @@
       <div v-if="$slots.prepend" class="j-input__prepend">
         <slot name="prepend"></slot>
       </div>
-      <div class="j-input-wrapper">
+      <div class="j-input__wrapper">
         <!--prefix 前缀-->
         <span v-if="$slots.prefix" class="j-input__prefix">
           <slot name="prefix"></slot>
@@ -44,8 +44,14 @@
           ></Icon>
           <Icon
             v-if="isShowPasswordIcon"
+            ref="inputRef"
             :icon="passwordIcon"
             class="j-input_password"
+            :placeholder="placeholder"
+            :readonly="readonly"
+            :autofocus="autofocus"
+            :autocomlete="autocomplete"
+            :form="form"
             @click="handleToggleEyes"
           ></Icon>
         </span>
@@ -58,8 +64,15 @@
     <!--textarea-->
     <template v-if="type === 'textarea'">
       <textarea
+        ref="inputRef"
         v-bind="attrs"
         v-model="innerValue"
+        class="j-textarea__self"
+        :placeholder="placeholder"
+        :readonly="readonly"
+        :autofocus="autofocus"
+        :autocomlete="autocomplete"
+        :form="form"
         @input="handleInput"
         @blur="handleBlur"
         @focus="handleFocus"
@@ -69,6 +82,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { Ref } from 'vue'
 import Icon from '@/components/Icon/Icon.vue'
 import type { InputEmits, InputProps } from '@/components/Input/type'
 import { computed, ref, useAttrs, watch } from 'vue'
@@ -81,8 +95,10 @@ const props = withDefaults(defineProps<InputProps>(), {
   size: 'default',
   showPassword: false,
   clearable: false,
-  disabled: false
+  disabled: false,
+  autocomplete: 'off'
 })
+const inputRef: Ref<HTMLInputElement | undefined> = ref()
 const attrs = useAttrs()
 const emits = defineEmits<InputEmits>()
 const innerValue = ref(props.modelValue)
@@ -120,6 +136,9 @@ const handleClear = () => {
   emits('change', '')
   emits('clear')
 }
+defineExpose({
+  ref: inputRef
+})
 watch(
   () => props.modelValue,
   () => {

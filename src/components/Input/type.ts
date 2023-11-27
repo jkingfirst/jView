@@ -6,6 +6,11 @@ export interface InputProps {
   clearable?: boolean
   showPassword?: boolean
   modelValue: string
+  placeholder?: string
+  readonly?: boolean
+  autocomplete?: string
+  autofocus?: boolean
+  form?: string
 }
 export interface InputEmits {
   (e: 'update:modelValue', value: string): void

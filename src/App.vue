@@ -65,6 +65,7 @@
     <!--    <j-message message="HELLO-word" type="primary"></j-message>-->
     <!--    <j-message message="HELLO-word" type="primary" :duration="0"></j-message>-->
   </div>
+  <j-input model-value="123"></j-input>
 </template>
 <script setup lang="ts">
 import { onMounted, ref, h } from 'vue'
@@ -74,6 +75,7 @@ import JCollapseItem from '@/components/Collapse/CollapseItem.vue'
 import JIcon from '@/components/Icon/Icon.vue'
 import JTooltip from '@/components/Tooltip/Tooltip.vue'
 import JDowndown from '@/components/Dropdown/Dropdown.tsx'
+import JInput from '@/components/Input/Input.vue'
 // import JMessage from '@/components/Message/Message.vue'
 import { createMessage } from '@/components/Message/method'
 import type { MenuOption } from '@/components/Dropdown/type'
