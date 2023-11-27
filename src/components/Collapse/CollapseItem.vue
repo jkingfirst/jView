@@ -13,7 +13,7 @@
       <j-icon icon="angle-right" class="j-icon-angle"></j-icon>
     </div>
     <transition name="slide" v-on="on">
-      <div v-show="isActive" :id="`collapse-item-content-${name}`">
+      <div v-show="isActive" :id="`collapse-item-content-${name}`" class="j-collapse-item__wrapper">
         <div class="j-collapse-item__content">
           <slot></slot>
         </div>

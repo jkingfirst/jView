@@ -1,0 +1,215 @@
+
+.j-input {
+  --j-input-text-color: var(--j-text-color-regular);
+  --j-input-border: var(--j-border);
+  --j-input-hover-border: var(--j-border-color-hover);
+  --j-input-focus-border: var(--j-color-primary);
+  --j-input-transparent-border: 0 0 0 1px transparent inset;
+  --j-input-border-color: var(--j-border-color);
+  --j-input-border-radius: var(--j-border-radius-base);
+  --j-input-bg-color: var(--j-fill-color-blank);
+  --j-input-icon-color: var(--j-text-color-placeholder);
+  --j-input-placeholder-color: var(--j-text-color-placeholder);
+  --j-input-hover-border-color: var(--j-border-color-hover);
+  --j-input-clear-hover-color: var(--j-text-color-secondary);
+  --j-input-focus-border-color: var(--j-color-primary);
+}
+
+.j-input {
+  --j-input-height: var(--j-component-size);
+  position: relative;
+  font-size: var(--j-font-size-base);
+  display: inline-flex;
+  width: 100%;
+  line-height: var(--j-input-height);
+  box-sizing: border-box;
+  vertical-align: middle;
+  &.is-disabled {
+    cursor: not-allowed;
+    .j-input__wrapper {
+      background-color: var(--j-disabled-bg-color);
+      box-shadow: 0 0 0 1px var(--j-disabled-border-color) inset;
+    }
+    .j-input__self {
+      color: var(--j-disabled-text-color);
+      -webkit-text-fill-color: var(--j-disabled-text-color);
+      cursor: not-allowed;
+    }
+  }
+  &.is-prepend {
+    >.j-input__wrapper {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+  &.is-append {
+    >.j-input__wrapper {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+}
+
+.j-input--large {
+  --j-input-height: var(--j-component-size-large);
+  font-size: 14px;
+  .j-input__wrapper {
+    padding: 1px 15px;
+    .j-input__self {
+      --j-input-inner-height: calc(var(--j-input-height, 40px) - 2px);
+    }
+  }
+
+}
+.j-input--small {
+  --j-input-height: var(--j-component-size-small);
+  font-size: 12px;
+  .j-input__wrapper {
+    padding: 1px 7px;
+    .j-input__self {
+      --j-input-inner-height: calc(var(--j-input-height, 24px) - 2px);
+    }
+  }
+}
+.j-input__prefix, .j-input__suffix {
+  display: inline-flex;
+  white-space: nowrap;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  height: 100%;
+  text-align: center;
+  color: var(--j-input-icon-color, var(--j-text-color-placeholder));
+  transition: all var(--j-transition-duration);
+}
+.j-input__prefix {
+  >:first-child {
+    margin-left: 0px !important;
+  }
+  >:last-child {
+    margin-right: 8px !important;
+  }
+}
+.j-input__suffix {
+  >:first-child {
+    margin-left: 8px !important;
+  }
+  >:last-child {
+    margin-right: 0px !important;
+  }
+}
+.j-input__prepend, .j-input__append {
+  background-color: var(--j-fill-color-light);
+  color: var(--j-color-info);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  border-radius: var(--j-input-border-radius);
+  padding: 0 20px;
+  white-space: nowrap;
+}
+.j-input__prepend {
+  border-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: 1px 0 0 0 var(--j-input-border-color) inset,0 1px 0 0 var(--j-input-border-color) inset,0 -1px 0 0 var(--j-input-border-color) inset;
+
+}
+.j-input__append {
+  border-left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  box-shadow: 0 1px 0 0 var(--j-input-border-color) inset,0 -1px 0 0 var(--j-input-border-color) inset,-1px 0 0 0 var(--j-input-border-color) inset;
+  & >.j-input__wrapper {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
+.j-input--textarea {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  vertical-align: bottom;
+  font-size: var(--j-font-size-base);
+}
+.j-textarea__self {
+  position: relative;
+  display: block;
+  resize: vertical;
+  padding: 5px 11px;
+  line-height: 1.5;
+  box-sizing: border-box;
+  width: 100%;
+  font-size: inherit;
+  font-family: inherit;
+  color: var(--j-input-text-color, var(--j-text-color-regular));
+  background-color: var(--j-input-bg-color, var(--j-fill-color-blank));
+  background-image: none;
+  -webkit-appearance: none;
+  box-shadow: 0 0 0 1px var(--j-input-border-color, var(--j-border-color)) inset;
+  border-radius: var(--j-input-border-radius, var(--j-border-radius-base));
+  transition: var(--j-transition-box-shadow);
+  border: none;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--j-input-focus-border-color) inset;
+  }
+  &::placeholder {
+    color: var(--j-input-placeholder-color);
+  }
+}
+.j-input__wrapper {
+  display: inline-flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 11px;
+  background-color: var(--j-input-bg-color, var(--j-fill-color-blank));
+  background-image: none;
+  border-radius: var(--j-input-border-radius, var(--j-border-radius-base));
+  transition: var(--j-transition-box-shadow);
+  box-shadow: 0 0 0 1px var(--j-input-border-color, var(--j-border-color)) inset;
+  &:hover {
+    box-shadow: 0 0 0 1px var(--j-input-hover-border-color) inset;
+  }
+  &.is-focus {
+    box-shadow: 0 0 0 1px var(--j-input-focus-border-color) inset;
+  }
+  .j-input__self {
+    --j-input-inner-height: calc(var(--j-input-height, 32px) - 2px);
+    width: 100%;
+    flex-grow: 1;
+    -webkit-appearance: none;
+    color: var(--j-input-text-color, var(--j-text-color-regular));
+    font-size: inherit;
+    height: var(--j-input-inner-height);
+    line-height: var(--j-input-inner-height);
+    padding: 0;
+    outline: none;
+    border: none;
+    background: none;
+    box-sizing: border-box;
+    &::placeholder {
+      color: var(--j-input-placeholder-color);
+    }
+  }
+  .j-icon {
+    height: inherit;
+    line-height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all var(--j-transition-duration);
+    margin-left: 8px;
+  }
+  .j-input__clear, .j-input__password {
+    color: var(--j-input-icon-color);
+    font-size: 14px;
+    cursor: pointer;
+    &:hover {
+      color: var(--j-input-clear-hover-color);
+    }
+  }
+}

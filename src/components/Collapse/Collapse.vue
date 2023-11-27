@@ -15,16 +15,21 @@ defineOptions({
 })
 const props = defineProps<CollapseProps>()
 const emit = defineEmits<CollapseEmit>()
+const a = ref(0)
 const activeNames = ref<NameTypes[]>(props.modelValue)
 const handleClickItem = (name: NameTypes) => {
+  const _activeNames = [...activeNames.value]
   const index = activeNames.value.findIndex((item) => item === name)
   if (index > -1) {
-    activeNames.value.splice(index, 1)
+    _activeNames.splice(index, 1)
   } else {
-    activeNames.value.push(name)
+    _activeNames.push(name)
   }
-  emit('change', activeNames.value)
-  emit('update:modelValue', activeNames.value)
+  console.log(activeNames.value, '#####')
+  console.log(a.value)
+  activeNames.value = _activeNames
+  emit('change', _activeNames)
+  emit('update:modelValue', _activeNames)
 }
 provide(CollapseContextKey, {
   activeNames,
