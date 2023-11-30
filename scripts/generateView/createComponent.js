@@ -46,7 +46,16 @@ const createComponent = async () => {
           let promise = await fs.writeFile(newFilePath, result)
           allPromise.push(promise)
           log(chalk.yellow(`write ${newFilePath} successful`))
-          allPromise.length > 3 && resolve(allPromise)
+          if (allPromise.length > 3) {
+            // 重写style下面的index.scss 把新创建组件样式加入到样式入口文件
+            const indexScssData = fs.readFileSync(
+              path.join(rootDir, 'src/styles/index.scss'),
+              'utf-8'
+            )
+            const newScssData = `${indexScssData}\n@import "@/components/${componentName}/style";`
+            await fs.writeFile(path.join(rootDir, 'src/styles/index.scss'), newScssData)
+            resolve(allPromise)
+          }
         })
       })
     }
