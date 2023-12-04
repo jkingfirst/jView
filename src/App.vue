@@ -66,6 +66,16 @@
     <!--    <j-message message="HELLO-word" type="primary" :duration="0"></j-message>-->
   </div>
   <j-input model-value="123"></j-input>
+  <div>
+    <j-switch
+      v-model="switchValue"
+      active-text="right"
+      inactive-text="left"
+      active-value="right"
+      inactive-value="left"
+      :before-change="beforeChange"
+    ></j-switch>
+  </div>
 </template>
 <script setup lang="ts">
 import { onMounted, ref, h } from 'vue'
@@ -74,13 +84,15 @@ import JCollapse from '@/components/Collapse/Collapse.vue'
 import JCollapseItem from '@/components/Collapse/CollapseItem.vue'
 import JIcon from '@/components/Icon/Icon.vue'
 import JTooltip from '@/components/Tooltip/Tooltip.vue'
-import JDowndown from '@/components/Dropdown/Dropdown.tsx'
+import JDropdown from '@/components/Dropdown/Dropdown.tsx'
 import JInput from '@/components/Input/Input.vue'
 // import JMessage from '@/components/Message/Message.vue'
+import JSwitch from '@/components/Switch/Switch.vue'
 import { createMessage } from '@/components/Message/method'
 import type { MenuOption } from '@/components/Dropdown/type'
 const buttonRef = ref(null)
 const tooltipRef = ref<HTMLElement | undefined>()
+const switchValue = ref('left')
 const options = ref<MenuOption[]>([
   {
     label: h('b', 'hello word'),
@@ -117,6 +129,13 @@ onMounted(() => {
 })
 const handleCreateMessage = () => {
   createMessage({ message: 'hello 2222', duration: 0, type: 'primary' })
+}
+const beforeChange: () => Promise<boolean> | boolean = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true)
+    }, 1000)
+  })
 }
 const open = () => {
   tooltipRef.value?.show()
