@@ -27,6 +27,11 @@
           v-bind="attrs"
           class="j-input__self"
           :type="nativeType"
+          :placeholder="placeholder"
+          :readonly="readonly"
+          :autofocus="autofocus"
+          :autocomlete="autocomplete"
+          :form="form"
           :disabled="disabled"
           @change="handleChange"
           @input="handleInput"
@@ -47,11 +52,6 @@
             ref="inputRef"
             :icon="passwordIcon"
             class="j-input_password"
-            :placeholder="placeholder"
-            :readonly="readonly"
-            :autofocus="autofocus"
-            :autocomlete="autocomplete"
-            :form="form"
             @click="handleToggleEyes"
           ></Icon>
         </span>
@@ -123,11 +123,13 @@ const handleInput = () => {
   emits('update:modelValue', innerValue.value)
   emits('input', innerValue.value)
 }
-const handleBlur = () => {
+const handleBlur = (event: FocusEvent) => {
   isFocus.value = false
+  emits('blur', event)
 }
-const handleFocus = () => {
+const handleFocus = (event: FocusEvent) => {
   isFocus.value = true
+  emits('focus', event)
 }
 const handleClear = () => {
   innerValue.value = ''
