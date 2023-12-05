@@ -30,8 +30,11 @@ const props = withDefaults(defineProps<TooltipProps>(), {
 const delay = computed(() => props.delay)
 const toolWrapperRef = ref<HTMLElement | undefined>()
 useClickOutside(toolWrapperRef, () => {
-  if (!props.manual) {
+  if (props.trigger === 'click' && isOpen.value && !props.manual) {
     closePopper()
+  }
+  if (isOpen.value) {
+    emits('click-outside', true)
   }
 })
 const emits = defineEmits<TooltipEmit>()

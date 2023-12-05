@@ -23,6 +23,7 @@
           <slot name="prefix"></slot>
         </span>
         <input
+          ref="inputRef"
           v-model="innerValue"
           v-bind="attrs"
           class="j-input__self"
@@ -49,7 +50,6 @@
           ></Icon>
           <Icon
             v-if="isShowPasswordIcon"
-            ref="inputRef"
             :icon="passwordIcon"
             class="j-input_password"
             @click="handleToggleEyes"
@@ -84,7 +84,7 @@
 <script lang="ts" setup>
 import type { Ref } from 'vue'
 import Icon from '@/components/Icon/Icon.vue'
-import type { InputEmits, InputProps } from '@/components/Input/type'
+import type { InputEmits, InputInstance, InputProps } from '@/components/Input/type'
 import { computed, ref, useAttrs, watch } from 'vue'
 defineOptions({
   name: 'JInput',
@@ -98,7 +98,7 @@ const props = withDefaults(defineProps<InputProps>(), {
   disabled: false,
   autocomplete: 'off'
 })
-const inputRef: Ref<HTMLInputElement | undefined> = ref()
+const inputRef = ref()
 const attrs = useAttrs()
 const emits = defineEmits<InputEmits>()
 const innerValue = ref(props.modelValue)
@@ -138,7 +138,7 @@ const handleClear = () => {
   emits('change', '')
   emits('clear')
 }
-defineExpose({
+defineExpose<InputInstance>({
   ref: inputRef
 })
 watch(

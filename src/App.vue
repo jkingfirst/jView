@@ -76,7 +76,7 @@
       :before-change="beforeChange"
     ></j-switch>
   </div>
-  <div><j-select :options="selectOptions" model-value=""></j-select></div>
+  <div><j-select :options="selectOptions" model-value="1"></j-select></div>
 </template>
 <script setup lang="ts">
 import { onMounted, ref, h } from 'vue'
@@ -116,8 +116,9 @@ const options = ref<MenuOption[]>([
   }
 ])
 const selectOptions = ref([
-  { label: 'hello', value: '123' },
-  { label: 'word', value: '456' }
+  { label: 'hello', value: '1' },
+  { label: 'word', value: '2' },
+  { label: '你好', value: '3', disabled: true }
 ])
 onMounted(() => {
   // console.log(buttonRef.value?.ref)

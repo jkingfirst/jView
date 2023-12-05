@@ -24,6 +24,11 @@
   line-height: var(--j-input-height);
   box-sizing: border-box;
   vertical-align: middle;
+  &.is-focus{
+    .j-input__wrapper{
+      box-shadow: 0 0 0 1px var(--j-input-focus-border) inset;
+    }
+  }
   &.is-disabled {
     cursor: not-allowed;
     .j-input__wrapper {

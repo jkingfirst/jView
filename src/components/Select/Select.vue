@@ -1,29 +1,37 @@
 <template>
   <div
-    class="j-select>"
+    class="j-select"
     :class="{
       'is-disabled': disabled
     }"
     @click="handleToggle"
   >
-    <j-tooltip ref="tooltipRef" :manual="true">
+    <j-tooltip
+      ref="tooltipRef"
+      placement="bottom-start"
+      :manual="true"
+      :popper-options="popperOptions"
+      @click-outside="handleVisibleChange(false)"
+    >
       <j-input
+        ref="inputRef"
         v-model="selectSate.inputValue"
-        class="j-select__input"
+        class="j-input__inner"
         :placeholder="placeholder"
         :disabled="disabled"
         :readonly="readonly"
       />
       <template #content>
-        <ul class="j-select__options">
+        <ul class="j-select__menu">
           <li
             v-for="item in options"
             :key="item.value"
-            class="j-select__option-item"
+            class="j-select__menu-item"
             :class="{
-              'is-disabled': item.disabled
+              'is-disabled': item.disabled,
+              'is-selected': item.value === selectSate.selectOption?.value
             }"
-            @click="handleSelect(item)"
+            @click.stop="handleSelect(item)"
           >
             {{ item.label }}
           </li>
@@ -39,6 +47,7 @@ import JTooltip from '@/components/Tooltip/Tooltip.vue'
 import type { SelectEmits, SelectProps, OptionType, SelectState } from '@/components/Select/type'
 import { reactive, ref, watch } from 'vue'
 import type { Ref } from 'vue'
+import type { PopperOptions } from '@/components/Tooltip/type'
 import type { TooltipInstance } from '@/components/Tooltip/type'
 defineOptions({
   name: 'JSelect'
@@ -48,22 +57,40 @@ const props = withDefaults(defineProps<SelectProps>(), {
 })
 const tooltipRef = ref() as Ref<TooltipInstance>
 const emits = defineEmits<SelectEmits>()
-
+const inputRef = ref()
 const isSowDropdown = ref(false)
 const findOptions = (value: string) => {
   const item = props.options.find((item) => value === item.value)
   return item ? item : null
 }
-const initOptions = findOptions(props.modelValue)
-const innerValue = ref(findOptions(props.modelValue))
+const initOptions = ref<OptionType | null>(findOptions(props.modelValue))
 const selectSate = reactive<SelectState>({
-  inputValue: initOptions ? initOptions.label : '',
-  selectOption: initOptions
+  inputValue: initOptions.value ? initOptions.value.label : '',
+  selectOption: initOptions.value
 })
+const popperOptions: PopperOptions = {
+  modifiers: [
+    {
+      name: 'offset',
+      options: {
+        offset: [0, 8]
+      }
+    },
+    {
+      name: 'sameWidth',
+      enabled: true,
+      fn: ({ state }: { state: any }) => {
+        state.styles.popper.width = `${state.rects.reference.width}px`
+      },
+      phase: 'beforeWrite',
+      requires: ['computeStyles']
+    }
+  ]
+}
 watch(
   () => props.modelValue,
   (value) => {
-    innerValue.value = findOptions(value)
+    initOptions.value = findOptions(value)
   }
 )
 const handleToggle = () => {
@@ -76,9 +103,9 @@ const handleToggle = () => {
 }
 const handleVisibleChange = (isShow: boolean) => {
   if (isShow) {
-    tooltipRef.value.hide()
-  } else {
     tooltipRef.value.show()
+  } else {
+    tooltipRef.value.hide()
   }
   isSowDropdown.value = isShow
   emits('visible-change', isShow)
@@ -86,10 +113,12 @@ const handleVisibleChange = (isShow: boolean) => {
 const handleSelect = (item: OptionType) => {
   if (item.disabled) return false
   selectSate.selectOption = item
+  selectSate.inputValue = item.label
   handleVisibleChange(false)
   emits('update:modelValue', item.value)
-  emits('change', selectSate.item.value)
+  emits('change', item.value)
   emits('visible-change', false)
+  inputRef.value.ref.focus()
 }
 </script>
 
