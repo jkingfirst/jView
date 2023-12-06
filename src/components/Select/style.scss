@@ -14,8 +14,14 @@
   .j-tooltip .j-tooltip__popper {
     padding: 0;
   }
-  .j-input__inner {
+  .j-input {
     cursor: pointer;
+    .j-select__icon{
+      transition: transform var(--j-transition-duration);
+      &.is-active{
+        transform: rotate(180deg);
+      }
+    }
   }
   .j-select__menu {
     list-style: none;

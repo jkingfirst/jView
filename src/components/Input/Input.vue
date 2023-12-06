@@ -40,13 +40,18 @@
           @focus="handleFocus"
         />
         <!--suffix 后缀-->
-        <span v-if="$slots.suffix || clearable || showPassword" class="j-input__suffix">
-          <slots name="suffix"></slots>
+        <span
+          v-if="$slots.suffix || clearable || showPassword"
+          class="j-input__suffix"
+          @click="keepFocus"
+        >
+          <slot name="suffix"></slot>
           <Icon
             v-if="showClear"
             icon="circle-xmark"
             class="j-input__clear"
             @click="handleClear"
+            @mousedown.prevent="NOOP"
           ></Icon>
           <Icon
             v-if="isShowPasswordIcon"
@@ -85,7 +90,7 @@
 import type { Ref } from 'vue'
 import Icon from '@/components/Icon/Icon.vue'
 import type { InputEmits, InputInstance, InputProps } from '@/components/Input/type'
-import { computed, ref, useAttrs, watch } from 'vue'
+import { computed, nextTick, ref, useAttrs, watch } from 'vue'
 defineOptions({
   name: 'JInput',
   inheritAttrs: false
@@ -105,7 +110,7 @@ const innerValue = ref(props.modelValue)
 const isFocus = ref(false)
 const passwordIcon = ref('eye-slash')
 const showClear = computed(
-  () => !props.disabled && props.clearable && !!props.modelValue && isFocus.value
+  () => !props.disabled && props.clearable && !!innerValue.value && isFocus.value
 )
 const isShowPasswordIcon = computed(() => {
   return props.showPassword && !!innerValue.value && !props.disabled
@@ -124,12 +129,17 @@ const handleInput = () => {
   emits('input', innerValue.value)
 }
 const handleBlur = (event: FocusEvent) => {
+  console.log('blur---')
   isFocus.value = false
   emits('blur', event)
 }
 const handleFocus = (event: FocusEvent) => {
   isFocus.value = true
   emits('focus', event)
+}
+const NOOP = () => {}
+const keepFocus = () => {
+  inputRef.value.focus()
 }
 const handleClear = () => {
   innerValue.value = ''

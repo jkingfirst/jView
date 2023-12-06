@@ -65,7 +65,7 @@
     <!--    <j-message message="HELLO-word" type="primary"></j-message>-->
     <!--    <j-message message="HELLO-word" type="primary" :duration="0"></j-message>-->
   </div>
-  <j-input model-value="123"></j-input>
+  <j-input model-value="123" clearable></j-input>
   <div>
     <j-switch
       v-model="switchValue"
@@ -76,7 +76,14 @@
       :before-change="beforeChange"
     ></j-switch>
   </div>
-  <div><j-select :options="selectOptions" model-value="1"></j-select></div>
+  <div>
+    <j-select
+      :options="selectOptions"
+      clearable
+      model-value="1"
+      :custom-render="handleRender"
+    ></j-select>
+  </div>
 </template>
 <script setup lang="ts">
 import { onMounted, ref, h } from 'vue'
@@ -136,6 +143,9 @@ onMounted(() => {
 })
 const handleCreateMessage = () => {
   createMessage({ message: 'hello 2222', duration: 0, type: 'primary' })
+}
+const handleRender = (item) => {
+  return h('div', {}, [h('b', item.label), h('span', item.value)])
 }
 const beforeChange: () => Promise<boolean> | boolean = () => {
   return new Promise((resolve) => {
