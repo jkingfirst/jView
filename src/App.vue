@@ -65,7 +65,7 @@
     <!--    <j-message message="HELLO-word" type="primary"></j-message>-->
     <!--    <j-message message="HELLO-word" type="primary" :duration="0"></j-message>-->
   </div>
-  <j-input model-value="123"></j-input>
+  <j-input model-value="123" clearable></j-input>
   <div>
     <j-switch
       v-model="switchValue"
@@ -76,9 +76,21 @@
       :before-change="beforeChange"
     ></j-switch>
   </div>
+  <div>
+    <j-select
+      :options="selectOptions"
+      clearable
+      model-value="1"
+      :custom-render="handleRender"
+      filterable
+    ></j-select>
+    <br />
+    <j-select clearable filterable model-value="1" :remote-method="handleRemote" remote></j-select>
+  </div>
 </template>
 <script setup lang="ts">
 import { onMounted, ref, h } from 'vue'
+import type { OptionType } from '@/components/Select/type'
 import JButton from '@/components/Button/Button.vue'
 import JCollapse from '@/components/Collapse/Collapse.vue'
 import JCollapseItem from '@/components/Collapse/CollapseItem.vue'
@@ -87,6 +99,7 @@ import JTooltip from '@/components/Tooltip/Tooltip.vue'
 import JDropdown from '@/components/Dropdown/Dropdown.tsx'
 import JInput from '@/components/Input/Input.vue'
 // import JMessage from '@/components/Message/Message.vue'
+import JSelect from '@/components/Select/Select.vue'
 import JSwitch from '@/components/Switch/Switch.vue'
 import { createMessage } from '@/components/Message/method'
 import type { MenuOption } from '@/components/Dropdown/type'
@@ -113,6 +126,13 @@ const options = ref<MenuOption[]>([
     key: 'item4'
   }
 ])
+const selectOptions = ref([
+  { label: 'hello', value: '1' },
+  { label: 'halo', value: '2' },
+  { label: 'word', value: '23' },
+  { label: 'world', value: '2' },
+  { label: '你好', value: '3', disabled: true }
+])
 onMounted(() => {
   // console.log(buttonRef.value?.ref)
   createMessage({ message: 'hello 111', duration: 0, type: 'success' })
@@ -129,6 +149,21 @@ onMounted(() => {
 })
 const handleCreateMessage = () => {
   createMessage({ message: 'hello 2222', duration: 0, type: 'primary' })
+}
+const handleRender = (item) => {
+  return h('div', {}, [h('b', item.label), h('span', item.value)])
+}
+const handleFilter = (value: string) => {
+  console.log(value)
+  return []
+}
+const handleRemote = (value: string): Promise<OptionType[]> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      let arr = selectOptions.value.filter((item) => item.label.includes(value)) || []
+      resolve(arr)
+    }, 1000)
+  })
 }
 const beforeChange: () => Promise<boolean> | boolean = () => {
   return new Promise((resolve) => {

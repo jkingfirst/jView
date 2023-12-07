@@ -1,3 +1,4 @@
+import type { Ref } from 'vue'
 type InputType = 'text' | 'textarea'
 export interface InputProps {
   type?: InputType
@@ -21,4 +22,7 @@ export interface InputEmits {
   (e: 'blur', value: FocusEvent): void
   (e: 'blur', value: FocusEvent): void
   (e: 'clear'): void
+}
+export interface InputInstance {
+  ref: Ref<HTMLInputElement | HTMLTextAreaElement | undefined>
 }

@@ -23,10 +23,16 @@
           <slot name="prefix"></slot>
         </span>
         <input
+          ref="inputRef"
           v-model="innerValue"
           v-bind="attrs"
           class="j-input__self"
           :type="nativeType"
+          :placeholder="placeholder"
+          :readonly="readonly"
+          :autofocus="autofocus"
+          :autocomlete="autocomplete"
+          :form="form"
           :disabled="disabled"
           @change="handleChange"
           @input="handleInput"
@@ -34,24 +40,23 @@
           @focus="handleFocus"
         />
         <!--suffix 后缀-->
-        <span v-if="$slots.suffix || clearable || showPassword" class="j-input__suffix">
-          <slots name="suffix"></slots>
+        <span
+          v-if="$slots.suffix || clearable || showPassword"
+          class="j-input__suffix"
+          @click="keepFocus"
+        >
+          <slot name="suffix"></slot>
           <Icon
             v-if="showClear"
             icon="circle-xmark"
             class="j-input__clear"
             @click="handleClear"
+            @mousedown.prevent="NOOP"
           ></Icon>
           <Icon
             v-if="isShowPasswordIcon"
-            ref="inputRef"
             :icon="passwordIcon"
             class="j-input_password"
-            :placeholder="placeholder"
-            :readonly="readonly"
-            :autofocus="autofocus"
-            :autocomlete="autocomplete"
-            :form="form"
             @click="handleToggleEyes"
           ></Icon>
         </span>
@@ -84,8 +89,8 @@
 <script lang="ts" setup>
 import type { Ref } from 'vue'
 import Icon from '@/components/Icon/Icon.vue'
-import type { InputEmits, InputProps } from '@/components/Input/type'
-import { computed, ref, useAttrs, watch } from 'vue'
+import type { InputEmits, InputInstance, InputProps } from '@/components/Input/type'
+import { computed, nextTick, ref, useAttrs, watch } from 'vue'
 defineOptions({
   name: 'JInput',
   inheritAttrs: false
@@ -98,14 +103,14 @@ const props = withDefaults(defineProps<InputProps>(), {
   disabled: false,
   autocomplete: 'off'
 })
-const inputRef: Ref<HTMLInputElement | undefined> = ref()
+const inputRef = ref()
 const attrs = useAttrs()
 const emits = defineEmits<InputEmits>()
 const innerValue = ref(props.modelValue)
 const isFocus = ref(false)
 const passwordIcon = ref('eye-slash')
 const showClear = computed(
-  () => !props.disabled && props.clearable && !!props.modelValue && isFocus.value
+  () => !props.disabled && props.clearable && !!innerValue.value && isFocus.value
 )
 const isShowPasswordIcon = computed(() => {
   return props.showPassword && !!innerValue.value && !props.disabled
@@ -123,11 +128,18 @@ const handleInput = () => {
   emits('update:modelValue', innerValue.value)
   emits('input', innerValue.value)
 }
-const handleBlur = () => {
+const handleBlur = (event: FocusEvent) => {
+  console.log('blur---')
   isFocus.value = false
+  emits('blur', event)
 }
-const handleFocus = () => {
+const handleFocus = (event: FocusEvent) => {
   isFocus.value = true
+  emits('focus', event)
+}
+const NOOP = () => {}
+const keepFocus = () => {
+  inputRef.value.focus()
 }
 const handleClear = () => {
   innerValue.value = ''
@@ -136,7 +148,7 @@ const handleClear = () => {
   emits('change', '')
   emits('clear')
 }
-defineExpose({
+defineExpose<InputInstance>({
   ref: inputRef
 })
 watch(
