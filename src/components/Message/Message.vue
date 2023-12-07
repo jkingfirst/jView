@@ -54,7 +54,6 @@ const bottomOffset = computed(() => {
 })
 const visible = ref(false)
 const keyDown = (e: Event) => {
-  console.log(e, '###')
   const event = e as KeyboardEvent
   if (event.code === 'Escape') {
     handleCloseMessage()

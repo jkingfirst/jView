@@ -7,17 +7,24 @@ export type OptionType = {
 export interface SelectProps {
   modelValue: string
   placeholder?: string
-  options: OptionType[]
+  options?: OptionType[]
   clearable?: boolean
   disabled?: boolean
   readonly?: boolean
   customRender?: RenderLabelFun
+  filterable?: boolean
+  filterMethod?: FilterMethod
+  remote?: boolean
+  remoteMethod?: RemoteMethod
 }
 type RenderLabelFun = (option: OptionType) => VNode
+type FilterMethod = (value: string) => OptionType[]
+type RemoteMethod = (value: string) => Promise<OptionType[]>
 export interface SelectState {
   inputValue: string
   selectOption: OptionType | null
   isHover: boolean
+  loading: boolean
 }
 export interface SelectEmits {
   (e: 'update:modelValue', value: string): void

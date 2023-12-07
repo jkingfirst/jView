@@ -18,9 +18,10 @@
       <j-input
         ref="inputRef"
         v-model="selectSate.inputValue"
-        :placeholder="placeholder"
+        :placeholder="filterPlaceholder"
         :disabled="disabled"
-        readonly
+        :readonly="!filterable"
+        @input="onFilter"
       >
         <template #suffix>
           <j-icon
@@ -41,9 +42,13 @@
         </template>
       </j-input>
       <template #content>
+        <div v-if="selectSate.loading" class="j-select__loading">
+          <j-icon icon="spinner"></j-icon>
+        </div>
+        <div v-else-if="filterOptions.length === 0 && !selectSate.loading">no data matched</div>
         <ul class="j-select__menu">
           <li
-            v-for="item in options"
+            v-for="item in filterOptions"
             :key="item.value"
             class="j-select__menu-item"
             :class="{
@@ -72,11 +77,13 @@ import { computed, reactive, ref, watch } from 'vue'
 import type { Ref } from 'vue'
 import type { PopperOptions } from '@/components/Tooltip/type'
 import type { TooltipInstance } from '@/components/Tooltip/type'
+import { isFunction } from '@/utils/type'
 defineOptions({
   name: 'JSelect'
 })
 const props = withDefaults(defineProps<SelectProps>(), {
-  placeholder: '请选择'
+  placeholder: '请选择',
+  options: () => []
 })
 const tooltipRef = ref() as Ref<TooltipInstance>
 const emits = defineEmits<SelectEmits>()
@@ -90,8 +97,36 @@ const initOptions = ref<OptionType | null>(findOptions(props.modelValue))
 const selectSate = reactive<SelectState>({
   inputValue: initOptions.value ? initOptions.value.label : '',
   selectOption: initOptions.value,
-  isHover: false
+  isHover: false,
+  loading: false
 })
+const filterOptions = ref(props.options)
+const getFilterOptions = async (value: string) => {
+  if (props.filterable && props.filterMethod && isFunction(props.filterMethod)) {
+    // 自定义筛选
+    filterOptions.value = props.filterMethod(value)
+  } else if (props.remote && props.remoteMethod && isFunction(props.remoteMethod)) {
+    //远程搜索
+    try {
+      selectSate.loading = true
+      filterOptions.value = await props.remoteMethod(selectSate.inputValue)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      selectSate.loading = false
+    }
+  } else {
+    filterOptions.value = props.options.filter((item) => item.label.includes(value))
+  }
+}
+const filterPlaceholder = computed(() => {
+  return props.filterable && selectSate.selectOption && isSowDropdown.value
+    ? selectSate.selectOption.label
+    : props.placeholder
+})
+const onFilter = () => {
+  getFilterOptions(selectSate.inputValue)
+}
 const NOOP = () => {}
 const isShowClearIcon = computed(() => {
   // 鼠标放置到select上， clearable：true, inputValue有值，selectOption有值
@@ -145,9 +180,20 @@ const handleToggle = () => {
 }
 const handleVisibleChange = (isShow: boolean) => {
   if (isShow) {
+    if (props.filterable && selectSate.selectOption) {
+      selectSate.inputValue = ''
+    }
+    if (props.filterable) {
+      getFilterOptions(selectSate.inputValue)
+    }
     tooltipRef.value.show()
   } else {
     tooltipRef.value.hide()
+    if (props.filterable) {
+      selectSate.inputValue = selectSate.selectOption
+        ? selectSate.selectOption.label
+        : props.placeholder
+    }
   }
   isSowDropdown.value = isShow
   emits('visible-change', isShow)

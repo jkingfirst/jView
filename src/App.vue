@@ -82,11 +82,15 @@
       clearable
       model-value="1"
       :custom-render="handleRender"
+      filterable
     ></j-select>
+    <br />
+    <j-select clearable filterable model-value="1" :remote-method="handleRemote" remote></j-select>
   </div>
 </template>
 <script setup lang="ts">
 import { onMounted, ref, h } from 'vue'
+import type { OptionType } from '@/components/Select/type'
 import JButton from '@/components/Button/Button.vue'
 import JCollapse from '@/components/Collapse/Collapse.vue'
 import JCollapseItem from '@/components/Collapse/CollapseItem.vue'
@@ -124,7 +128,9 @@ const options = ref<MenuOption[]>([
 ])
 const selectOptions = ref([
   { label: 'hello', value: '1' },
-  { label: 'word', value: '2' },
+  { label: 'halo', value: '2' },
+  { label: 'word', value: '23' },
+  { label: 'world', value: '2' },
   { label: '你好', value: '3', disabled: true }
 ])
 onMounted(() => {
@@ -146,6 +152,18 @@ const handleCreateMessage = () => {
 }
 const handleRender = (item) => {
   return h('div', {}, [h('b', item.label), h('span', item.value)])
+}
+const handleFilter = (value: string) => {
+  console.log(value)
+  return []
+}
+const handleRemote = (value: string): Promise<OptionType[]> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      let arr = selectOptions.value.filter((item) => item.label.includes(value)) || []
+      resolve(arr)
+    }, 1000)
+  })
 }
 const beforeChange: () => Promise<boolean> | boolean = () => {
   return new Promise((resolve) => {
