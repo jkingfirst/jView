@@ -22,6 +22,7 @@
         :disabled="disabled"
         :readonly="!filterable"
         @input="onFilter"
+        @keydown="handleKeydown"
       >
         <template #suffix>
           <j-icon
@@ -36,7 +37,7 @@
             icon="angle-down"
             class="j-select__icon"
             :class="{
-              'is-active': isSowDropdown
+              'is-active': isShowDropdown
             }"
           ></j-icon>
         </template>
@@ -48,11 +49,12 @@
         <div v-else-if="filterOptions.length === 0 && !selectSate.loading">no data matched</div>
         <ul class="j-select__menu">
           <li
-            v-for="item in filterOptions"
+            v-for="(item, index) in filterOptions"
             :key="item.value"
             class="j-select__menu-item"
             :class="{
               'is-disabled': item.disabled,
+              'is-highlight': selectSate.selectHighlight === index,
               'is-selected': item.value === selectSate.selectOption?.value
             }"
             @click.stop="handleSelect(item)"
@@ -88,7 +90,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
 const tooltipRef = ref() as Ref<TooltipInstance>
 const emits = defineEmits<SelectEmits>()
 const inputRef = ref()
-const isSowDropdown = ref(false)
+const isShowDropdown = ref(false)
 const findOptions = (value: string) => {
   const item = props.options.find((item) => value === item.value)
   return item ? item : null
@@ -98,7 +100,8 @@ const selectSate = reactive<SelectState>({
   inputValue: initOptions.value ? initOptions.value.label : '',
   selectOption: initOptions.value,
   isHover: false,
-  loading: false
+  loading: false,
+  selectHighlight: -1
 })
 const filterOptions = ref(props.options)
 const getFilterOptions = async (value: string) => {
@@ -120,7 +123,7 @@ const getFilterOptions = async (value: string) => {
   }
 }
 const filterPlaceholder = computed(() => {
-  return props.filterable && selectSate.selectOption && isSowDropdown.value
+  return props.filterable && selectSate.selectOption && isShowDropdown.value
     ? selectSate.selectOption.label
     : props.placeholder
 })
@@ -144,6 +147,41 @@ const handleClear = () => {
   emits('update:modelValue', '')
   emits('change', '')
   emits('clear')
+}
+const handleKeydown = (e: KeyboardEvent) => {
+  switch (e.key) {
+    case 'Enter':
+      if (selectSate.selectHighlight > -1 && filterOptions.value[selectSate.selectHighlight]) {
+        const selectItem = filterOptions.value[selectSate.selectHighlight]
+        handleSelect(selectItem)
+      }
+      break
+    case 'Escape':
+      if (isShowDropdown.value) {
+        handleVisibleChange(false)
+      }
+      break
+    case 'ArrowUp':
+      if (filterOptions.value.length > 0) {
+        if (selectSate.selectHighlight === -1 || selectSate.selectHighlight === 0) {
+          selectSate.selectHighlight = filterOptions.value.length - 1
+        } else {
+          selectSate.selectHighlight--
+        }
+      }
+      break
+    case 'ArrowDown':
+      if (filterOptions.value.length > 0) {
+        if (selectSate.selectHighlight === filterOptions.value.length - 1) {
+          selectSate.selectHighlight = 0
+        } else {
+          selectSate.selectHighlight++
+        }
+      }
+      break
+    default:
+      break
+  }
 }
 const popperOptions: PopperOptions = {
   modifiers: [
@@ -172,7 +210,7 @@ watch(
 )
 const handleToggle = () => {
   if (props.disabled) return false
-  if (isSowDropdown.value) {
+  if (isShowDropdown.value) {
     handleVisibleChange(false)
   } else {
     handleVisibleChange(true)
@@ -195,7 +233,7 @@ const handleVisibleChange = (isShow: boolean) => {
         : props.placeholder
     }
   }
-  isSowDropdown.value = isShow
+  isShowDropdown.value = isShow
   emits('visible-change', isShow)
 }
 const handleSelect = (item: OptionType) => {

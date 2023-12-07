@@ -25,6 +25,7 @@ export interface SelectState {
   selectOption: OptionType | null
   isHover: boolean
   loading: boolean
+  selectHighlight: number
 }
 export interface SelectEmits {
   (e: 'update:modelValue', value: string): void

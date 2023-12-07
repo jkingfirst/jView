@@ -23,6 +23,13 @@
       }
     }
   }
+  .j-select__nodata, .j-select__loading {
+    padding: 10px 0;
+    margin: 0;
+    text-align: center;
+    color: var(--j-text-color-secondary);
+    font-size: var(--j-select-font-size);
+  }
   .j-select__menu {
     list-style: none;
     margin: 6px 0;
@@ -48,6 +55,9 @@
     &.is-selected {
       color: var(--j-select-item-selected-font-color);
       font-weight: 700;
+    }
+    &.is-highlight{
+      background-color: var(--j-select-item-hover-bg-color);
     }
     &.is-disabled {
       color: var(--j-select-item-disabled-font-color);
