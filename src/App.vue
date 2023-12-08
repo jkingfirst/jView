@@ -65,7 +65,8 @@
     <!--    <j-message message="HELLO-word" type="primary"></j-message>-->
     <!--    <j-message message="HELLO-word" type="primary" :duration="0"></j-message>-->
   </div>
-  <j-input model-value="123" clearable></j-input>
+  <j-input v-model="userName" clearable></j-input>
+  {{ userName }}}
   <div>
     <j-switch
       v-model="switchValue"
@@ -87,15 +88,34 @@
     <br />
     <j-select clearable filterable model-value="1" :remote-method="handleRemote" remote></j-select>
   </div>
+  <div>
+    <j-form :model="formModel" :rules="formRules">
+      <j-form-item label="邮箱" prop="email">
+        <j-input v-model="formModel.email"></j-input>
+      </j-form-item>
+      <j-form-item label="密码" prop="password">
+        <template #label="formItem">
+          <j-button>{{ formItem.label }}</j-button>
+        </template>
+        <j-input v-model="formModel.password" show-password></j-input>
+      </j-form-item>
+      <div>
+        <j-button type="primary">提交</j-button>
+        <j-button>重置</j-button>
+      </div>
+    </j-form>
+  </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, h } from 'vue'
+import { onMounted, ref, h, reactive } from 'vue'
 import type { OptionType } from '@/components/Select/type'
 import JButton from '@/components/Button/Button.vue'
 import JCollapse from '@/components/Collapse/Collapse.vue'
 import JCollapseItem from '@/components/Collapse/CollapseItem.vue'
 import JIcon from '@/components/Icon/Icon.vue'
 import JTooltip from '@/components/Tooltip/Tooltip.vue'
+import JForm from '@/components/Form/Form.vue'
+import JFormItem from '@/components/Form/FormItem.vue'
 import JDropdown from '@/components/Dropdown/Dropdown.tsx'
 import JInput from '@/components/Input/Input.vue'
 // import JMessage from '@/components/Message/Message.vue'
@@ -104,6 +124,8 @@ import JSwitch from '@/components/Switch/Switch.vue'
 import { createMessage } from '@/components/Message/method'
 import type { MenuOption } from '@/components/Dropdown/type'
 const buttonRef = ref(null)
+const userName = ref('jking')
+const password = ref('1234')
 const tooltipRef = ref<HTMLElement | undefined>()
 const switchValue = ref('left')
 const options = ref<MenuOption[]>([
@@ -147,6 +169,14 @@ onMounted(() => {
     // instance.destroy()
   }, 5000)
 })
+const formModel = reactive({
+  email: 'jking@sina.com',
+  password: ''
+})
+const formRules = {
+  email: [{ required: true, message: '输入正确邮箱', type: 'email' }],
+  password: [{ required: true, message: '输入密码', type: 'string' }]
+}
 const handleCreateMessage = () => {
   createMessage({ message: 'hello 2222', duration: 0, type: 'primary' })
 }
