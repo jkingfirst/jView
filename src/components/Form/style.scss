@@ -1,4 +1,55 @@
 
-.j-form{
-
+.j-form {
+  --j-form-label-font-size: var(--j-font-size-base);
+  --j-form-content-font-size: var(--j-font-size-base);
 }
+.j-form-item {
+  display: flex;
+  margin-bottom: 18px;
+  .j-form-item__label {
+    width: 150px;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 12px 0 0;
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: flex-end;
+    font-size: var(--j-form-label-font-size);
+    color: var(--j-text-color-regular);
+  }
+  .j-form-item__content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex: 1;
+    line-height: 32px;
+    font-size: var(--j-form-content-font-size);
+    min-width: 0;
+    position: relative;
+  }
+  .j-form-item__error-msg {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding-top: 2px;
+    color: var(--j-color-danger);
+    font-size: 12px;
+    line-height: 1;
+  }
+}
+
+.j-form-item.is-error .j-input__wrapper {
+  box-shadow: 0 0 0 1px var(--j-color-danger) inset;
+}
+.j-form-item.is-success .j-input__wrapper {
+  box-shadow: 0 0 0 1px var(--j-color-success) inset;
+}
+.j-form-item.is-required > .j-form-item__label::before {
+  content: "*";
+  color: var(--j-color-danger);
+  margin-right: 4px;
+}
+
+
+
+

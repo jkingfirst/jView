@@ -89,7 +89,7 @@
     <j-select clearable filterable model-value="1" :remote-method="handleRemote" remote></j-select>
   </div>
   <div>
-    <j-form :model="formModel" :rules="formRules">
+    <j-form ref="formRef" :model="formModel" :rules="formRules">
       <j-form-item label="邮箱" prop="email">
         <j-input v-model="formModel.email"></j-input>
       </j-form-item>
@@ -99,9 +99,14 @@
         </template>
         <j-input v-model="formModel.password" show-password></j-input>
       </j-form-item>
+      <j-form-item label="test" prop="test">
+        <template #default="{ validate }">
+          <input @blur="validate" />
+        </template>
+      </j-form-item>
       <div>
-        <j-button type="primary">提交</j-button>
-        <j-button>重置</j-button>
+        <j-button type="primary" @click.prevent="validateForm">验证</j-button>
+        <j-button @click.prevent="reset">重置</j-button>
       </div>
     </j-form>
   </div>
@@ -123,11 +128,13 @@ import JSelect from '@/components/Select/Select.vue'
 import JSwitch from '@/components/Switch/Switch.vue'
 import { createMessage } from '@/components/Message/method'
 import type { MenuOption } from '@/components/Dropdown/type'
+import type { FormProps } from '@/components/Form/type'
 const buttonRef = ref(null)
 const userName = ref('jking')
 const password = ref('1234')
 const tooltipRef = ref<HTMLElement | undefined>()
 const switchValue = ref('left')
+const formRef = ref()
 const options = ref<MenuOption[]>([
   {
     label: h('b', 'hello word'),
@@ -170,12 +177,27 @@ onMounted(() => {
   }, 5000)
 })
 const formModel = reactive({
-  email: 'jking@sina.com',
-  password: ''
+  email: '',
+  password: '',
+  test: ''
 })
-const formRules = {
-  email: [{ required: true, message: '输入正确邮箱', type: 'email' }],
-  password: [{ required: true, message: '输入密码', type: 'string' }]
+const validateForm = () => {
+  formRef.value
+    .validate()
+    .then(() => {
+      console.log('全部通过')
+    })
+    .catch((e: any) => {
+      console.log(e)
+    })
+}
+const reset = () => {
+  formRef.value.resetFields()
+}
+const formRules: FormProps['rules'] = {
+  email: [{ required: true, message: '输入正确邮箱', type: 'string' }],
+  password: [{ required: true, message: '输入密码', type: 'string' }],
+  test: [{ required: true, message: '输入test', type: 'string' }]
 }
 const handleCreateMessage = () => {
   createMessage({ message: 'hello 2222', duration: 0, type: 'primary' })

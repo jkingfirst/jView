@@ -90,7 +90,8 @@
 import type { Ref } from 'vue'
 import Icon from '@/components/Icon/Icon.vue'
 import type { InputEmits, InputInstance, InputProps } from '@/components/Input/type'
-import { computed, nextTick, ref, useAttrs, watch } from 'vue'
+import { computed, nextTick, ref, useAttrs, watch, inject } from 'vue'
+import { FormItemContextKey } from '@/components/Form/type'
 defineOptions({
   name: 'JInput',
   inheritAttrs: false
@@ -103,6 +104,7 @@ const props = withDefaults(defineProps<InputProps>(), {
   disabled: false,
   autocomplete: 'off'
 })
+const formItemContext = inject(FormItemContextKey)
 const inputRef = ref()
 const attrs = useAttrs()
 const emits = defineEmits<InputEmits>()
@@ -112,6 +114,9 @@ const passwordIcon = ref('eye-slash')
 const showClear = computed(
   () => !props.disabled && props.clearable && !!innerValue.value && isFocus.value
 )
+const validate = (trigger?: string) => {
+  formItemContext?.validate(trigger)
+}
 const isShowPasswordIcon = computed(() => {
   return props.showPassword && !!innerValue.value && !props.disabled
 })
@@ -123,15 +128,18 @@ const handleToggleEyes = () => {
 }
 const handleChange = () => {
   emits('change', innerValue.value)
+  validate('change')
 }
 const handleInput = () => {
   emits('update:modelValue', innerValue.value)
   emits('input', innerValue.value)
+  validate('input')
 }
 const handleBlur = (event: FocusEvent) => {
   console.log('blur---')
   isFocus.value = false
   emits('blur', event)
+  validate('blur')
 }
 const handleFocus = (event: FocusEvent) => {
   isFocus.value = true
